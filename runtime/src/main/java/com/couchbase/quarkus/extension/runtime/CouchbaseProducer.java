@@ -15,7 +15,7 @@
  */
 package com.couchbase.quarkus.extension.runtime;
 
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.inject.Produces;
 
 import com.couchbase.client.java.Cluster;
 

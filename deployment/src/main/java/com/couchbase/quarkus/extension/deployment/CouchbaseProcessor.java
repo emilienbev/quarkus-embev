@@ -15,7 +15,7 @@
  */
 package com.couchbase.quarkus.extension.deployment;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import com.couchbase.client.java.Cluster;
 import com.couchbase.quarkus.extension.runtime.CouchbaseConfig;
