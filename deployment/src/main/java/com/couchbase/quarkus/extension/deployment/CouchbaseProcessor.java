@@ -18,8 +18,10 @@ package com.couchbase.quarkus.extension.deployment;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import com.couchbase.client.java.Cluster;
+import com.couchbase.client.java.env.ClusterEnvironment;
 import com.couchbase.quarkus.extension.runtime.CouchbaseConfig;
 import com.couchbase.quarkus.extension.runtime.CouchbaseRecorder;
+import com.couchbase.quarkus.extension.runtime.jacksonhandling.JacksonSupportRecorder;
 
 import io.quarkus.arc.deployment.SyntheticBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
@@ -31,9 +33,13 @@ public class CouchbaseProcessor {
 
     @BuildStep
     @Record(ExecutionTime.RUNTIME_INIT)
-    public void produceCouchbaseClient(CouchbaseRecorder recorder,
+    public void produceCouchbaseClient(CouchbaseRecorder recorder, JacksonSupportRecorder jacksonRecorder,
             CouchbaseConfig config,
             BuildProducer<SyntheticBeanBuildItem> syntheticBeans) {
+
+        //TODO: WIP
+        ClusterEnvironment.Builder builder = ClusterEnvironment.builder();
+
         syntheticBeans.produce(SyntheticBeanBuildItem
                 .configure(Cluster.class)
                 .scope(ApplicationScoped.class)
