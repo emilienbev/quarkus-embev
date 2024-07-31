@@ -2,6 +2,9 @@ package com.couchbase.quarkus.extension.runtime;
 
 import java.util.function.BooleanSupplier;
 
+import com.couchbase.client.core.deps.org.xbill.DNS.config.BaseResolverConfigProvider;
+import com.couchbase.client.core.deps.org.xbill.DNS.config.InitializationException;
+import com.couchbase.client.core.deps.org.xbill.DNS.config.WindowsResolverConfigProvider;
 import com.couchbase.client.core.encryption.CryptoManager;
 import com.couchbase.client.java.codec.*;
 import com.couchbase.client.java.env.ClusterEnvironment;
@@ -54,8 +57,34 @@ final class TargetClusterEnvironment {
     }
 }
 
+@TargetClass(value = WindowsResolverConfigProvider.class)
+final class TargetWindowsResolver {
+
+    //    @Inject
+    //    private static final boolean IsOSWindows = false;
+
+    @Substitute
+    public TargetWindowsResolver() {
+    }
+
+    @Substitute
+    public void initialize() throws InitializationException {
+    }
+
+    @Substitute
+    private static final class InnerWindowsResolverConfigProvider extends BaseResolverConfigProvider {
+        @Override
+        public void initialize() {
+
+        }
+    }
+}
+
+//@TargetClass(value = AndroidResolverConfigProvider.class)
+//final class Target_AndroidResolverConfigProvider {
+//
 //    @Substitute
-//    private boolean nonShadowedJacksonPresent() {
-//        return false;
+//    public void initialize() throws InitializationException {
+//        return;
 //    }
 //}
