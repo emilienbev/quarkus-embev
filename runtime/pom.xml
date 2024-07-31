@@ -14,11 +14,115 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.couchbase.client</groupId>
-      <artifactId>java-client</artifactId>
-      <version>3.6.2</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.couchbase.client</groupId>-->
+<!--      <artifactId>java-client</artifactId>-->
+<!--      <version>3.6.2</version>-->
+<!--    </dependency>-->
+    <!-- Local unshaded java client jar -->
+<!--      <dependency>-->
+<!--        <groupId>com.couchbase.client</groupId>-->
+<!--        <artifactId>java-client</artifactId>-->
+<!--        <version>3.7.2</version>-->
+<!--        <scope>system</scope>-->
+<!--        <systemPath>${project.basedir}/javaclientdeps/NAME.jar</systemPath>-->
+<!--      </dependency>-->
+
+  <!-- AAAAAAAAAAAAAAAAAAAAAAAAAA -->
+      <!-- Core IO -->
+      <dependency>
+        <groupId>com.couchbase.client</groupId>
+        <artifactId>core-io</artifactId>
+        <version>3.7.2-SNAPSHOT</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/core-io-3.7.2-SNAPSHOT.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>com.couchbase.client</groupId>
+        <artifactId>core-io-javadoc</artifactId>
+        <version>3.7.2-SNAPSHOT</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/core-io-3.7.2-SNAPSHOT-javadoc.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>com.couchbase.client</groupId>
+        <artifactId>core-io-sources</artifactId>
+        <version>3.7.2-SNAPSHOT</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/core-io-3.7.2-SNAPSHOT-sources.jar</systemPath>
+      </dependency>
+
+      <!-- Core IO Dependencies -->
+      <dependency>
+        <groupId>com.couchbase.client</groupId>
+        <artifactId>core-io-deps</artifactId>
+        <version>1.7.2-SNAPSHOT</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/core-io-deps-1.7.2-SNAPSHOT.jar</systemPath>
+      </dependency>
+
+      <!-- Java Client -->
+      <dependency>
+        <groupId>com.couchbase.client</groupId>
+        <artifactId>java-client</artifactId>
+        <version>3.7.2-SNAPSHOT</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/java-client-3.7.2-SNAPSHOT.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>com.couchbase.client</groupId>
+        <artifactId>java-client-javadoc</artifactId>
+        <version>3.7.2-SNAPSHOT</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/java-client-3.7.2-SNAPSHOT-javadoc.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>com.couchbase.client</groupId>
+        <artifactId>java-client-sources</artifactId>
+        <version>3.7.2-SNAPSHOT</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/java-client-3.7.2-SNAPSHOT-sources.jar</systemPath>
+      </dependency>
+
+      <!-- Additional Dependencies -->
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna</artifactId>
+        <version>5.14.0</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/jna-5.14.0.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna-platform</artifactId>
+        <version>5.14.0</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/jna-platform-5.14.0.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>org.reactivestreams</groupId>
+        <artifactId>reactive-streams</artifactId>
+        <version>1.0.4</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/reactive-streams-1.0.4.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>io.projectreactor</groupId>
+        <artifactId>reactor-core</artifactId>
+        <version>3.6.3</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/reactor-core-3.6.3.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.36</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/javaclientdeps/slf4j-api-1.7.36.jar</systemPath>
+      </dependency>
+
+    <!-- AAAAAAAAAAAAAAAAAAAAAAAAAA -->
+
     <dependency>
       <groupId>org.graalvm.sdk</groupId>
       <artifactId>nativeimage</artifactId>

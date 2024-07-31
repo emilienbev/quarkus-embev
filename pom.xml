@@ -59,10 +59,17 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.version>3.12.3</quarkus.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
-    <couchbase.client.version>3.2.0</couchbase.client.version>
+    <couchbase.client.version>3.7.2</couchbase.client.version>
   </properties>
   <dependencyManagement>
     <dependencies>
+      <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+        <artifactId>jna-platform</artifactId>
+        <version>5.14.0</version>
+      </dependency>
+
       <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-bom</artifactId>

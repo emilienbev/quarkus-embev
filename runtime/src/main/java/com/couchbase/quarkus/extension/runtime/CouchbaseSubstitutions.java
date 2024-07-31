@@ -54,8 +54,26 @@ final class TargetClusterEnvironment {
     }
 }
 
+//@TargetClass(value = WindowsResolverConfigProvider.class, onlyWith = TargetWindowsResolver.IsOSWindows.class)
+//final class TargetWindowsResolver {
+//
 //    @Substitute
-//    private boolean nonShadowedJacksonPresent() {
-//        return false;
+//    public TargetWindowsResolver() {
+//
+//    }
+//
+//    @Substitute
+//    private static final class InnerWindowsResolverConfigProvider extends BaseResolverConfigProvider {
+//        @Override
+//        public void initialize() {
+//
+//        }
+//    }
+//
+//    public static class IsOSWindows implements BooleanSupplier {
+//        @Override
+//        public boolean getAsBoolean() {
+//            return true;
+//        }
 //    }
 //}

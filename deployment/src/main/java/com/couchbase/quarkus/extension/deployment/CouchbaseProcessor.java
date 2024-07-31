@@ -31,6 +31,19 @@ import io.quarkus.deployment.annotations.Record;
 
 public class CouchbaseProcessor {
 
+    //TODO: Figure out arguments for this, currently doesn't seem to be working.
+    //    @BuildStep
+    //    RemovedResourceBuildItem overrideTwo() {
+    //        return new RemovedResourceBuildItem(ArtifactKey.fromString(
+    //                "com.couchbase.client.core.deps.org.xbill.DNS.config:java-client"),
+    //                Collections.singleton("com/couchbase/client/core/deps/org/xbill/DNS/config/WindowsResolverConfigProvider.class"));
+    //    }
+
+    //    @BuildStep
+    //    void setIsWindows(BuildProducer<SystemPropertyBuildItem> systemProperty) {
+    //        systemProperty.produce(new SystemPropertyBuildItem("dnsjava.configprovider.skipinit", "true"));
+    //    }
+
     @BuildStep
     @Record(ExecutionTime.RUNTIME_INIT)
     public void produceCouchbaseClient(CouchbaseRecorder recorder, JacksonSupportRecorder jacksonRecorder,
