@@ -17,16 +17,61 @@
 package com.couchbase.quarkus.extension.it;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+
+import com.couchbase.client.java.Cluster;
 
 @Path("/couchbase-quarkus-extension")
 @ApplicationScoped
 public class CouchbaseQuarkusExtensionResource {
     // add some rest methods here
 
+    @Inject
+    Cluster cluster;
+
     @GET
     public String hello() {
         return "Hello couchbase-quarkus-extension";
+    }
+
+    @GET
+    @Path("/clusterCheck")
+    public String clusterCheck() {
+        var query = cluster.query("select 1 as test");
+        return "hello";
+    }
+
+    @GET
+    @Path("/kvCheck")
+    public String kvCheck() {
+        var col = cluster.bucket("default").scope("default").collection("default");
+        return "hello";
+    }
+
+    @GET
+    @Path("/check")
+    public String check() {
+        var test = new com.couchbase.client.java.manager.user.GetGroupOptions();
+        return "hello";
+    }
+
+    @GET
+    @Path("/newCheck")
+    public String NewCheck() {
+        var test = Cluster.connect("couchbase://localhost", "Administrator", "password");
+        var query = cluster.query("select 1 as test");
+        return "hello";
+    }
+
+    @GET
+    @Path("/isClusterNull")
+    public String isNull() {
+        if (cluster == null) {
+            return "Yes cluster is null";
+        } else {
+            return "no cluster is not null";
+        }
     }
 }

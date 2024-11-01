@@ -33,6 +33,15 @@ import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
 public class CouchbaseSubstitutions {
+
+}
+
+@TargetClass(className = "com.couchbase.client.core.compression.snappy.SnappyHelper")
+final class TargerSnappyHelper {
+    @Substitute
+    private static boolean canAccessUnsafe() {
+        return false;
+    }
 }
 
 @TargetClass(value = ClusterEnvironment.class, onlyWith = TargetClusterEnvironment.IsJacksonAbsent.class)
