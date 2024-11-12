@@ -5,9 +5,12 @@ import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.jctools.queues.atomic.unpadded.MpscAtomicUnpaddedArrayQueue;
+
 import com.couchbase.client.core.cnc.EventBus;
+import com.couchbase.client.core.cnc.RequestSpan;
+import com.couchbase.client.core.cnc.RequestTracer;
 import com.couchbase.client.core.cnc.tracing.ThresholdLoggingTracer;
-import com.couchbase.client.core.deps.org.jctools.queues.atomic.unpadded.MpscAtomicUnpaddedArrayQueue;
 import com.couchbase.client.core.env.ThresholdLoggingTracerConfig;
 import com.couchbase.client.core.msg.Request;
 import com.oracle.svm.core.annotate.Alias;
@@ -15,51 +18,41 @@ import com.oracle.svm.core.annotate.RecomputeFieldValue;
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
+import reactor.core.publisher.Mono;
+
 public class ThresholdLoggingTracerSubstitutions {
 }
 
 @TargetClass(value = ThresholdLoggingTracer.class)
-final class Target_ThresholdLoggingTracer {
+final class Target_ThresholdLoggingTracer implements RequestTracer {
 
     @Alias
     @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
     private static AtomicInteger REQUEST_TRACER_ID = new AtomicInteger();
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_TOTAL_MICROS = "total_duration_us";
+    private static String KEY_TOTAL_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_DISPATCH_MICROS = "last_dispatch_duration_us";
+    private static String KEY_DISPATCH_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_TOTAL_DISPATCH_MICROS = "total_dispatch_duration_us";
+    private static String KEY_TOTAL_DISPATCH_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_ENCODE_MICROS = "encode_duration_us";
+    private static String KEY_ENCODE_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_SERVER_MICROS = "last_server_duration_us";
+    private static String KEY_SERVER_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_TOTAL_SERVER_MICROS = "total_server_duration_us";
+    private static String KEY_TOTAL_SERVER_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_OPERATION_ID = "operation_id";
+    private static String KEY_OPERATION_ID;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_OPERATION_NAME = "operation_name";
+    private static String KEY_OPERATION_NAME;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_LAST_LOCAL_SOCKET = "last_local_socket";
+    private static String KEY_LAST_LOCAL_SOCKET;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_LAST_REMOTE_SOCKET = "last_remote_socket";
+    private static String KEY_LAST_REMOTE_SOCKET;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_LAST_LOCAL_ID = "last_local_id";
+    private static String KEY_LAST_LOCAL_ID;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_TIMEOUT = "timeout_ms";
+    private static String KEY_TIMEOUT;
     @Alias
     @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
     private AtomicBoolean running = new AtomicBoolean(false);
@@ -106,10 +99,18 @@ final class Target_ThresholdLoggingTracer {
         worker.setDaemon(true);
     }
 
+    @Alias
+    public native RequestSpan requestSpan(String s, RequestSpan requestSpan);
+
+    @Alias
+    public native Mono<Void> start();
+
+    @Alias
+    public native Mono<Void> stop(Duration duration);
+
     @TargetClass(value = ThresholdLoggingTracer.class, innerClass = "Worker")
     private static final class Target_Worker implements Runnable {
         @Alias
-        public void run() {
-        }
+        public native void run();
     }
 }

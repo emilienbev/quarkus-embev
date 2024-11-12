@@ -10,9 +10,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
+import org.jctools.queues.atomic.unpadded.MpscAtomicUnpaddedArrayQueue;
+
 import com.couchbase.client.core.cnc.DefaultEventBus;
 import com.couchbase.client.core.cnc.Event;
-import com.couchbase.client.core.deps.org.jctools.queues.atomic.unpadded.MpscAtomicUnpaddedArrayQueue;
 import com.couchbase.client.core.util.NanoTimestamp;
 import com.oracle.svm.core.annotate.Alias;
 import com.oracle.svm.core.annotate.Substitute;

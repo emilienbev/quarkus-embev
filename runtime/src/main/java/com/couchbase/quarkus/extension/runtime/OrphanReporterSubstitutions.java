@@ -1,6 +1,8 @@
 package com.couchbase.quarkus.extension.runtime;
 
 import java.time.Duration;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,53 +25,39 @@ public class OrphanReporterSubstitutions {
 final class Target_OrphanReporter {
 
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    public static String ORPHAN_TREAD_PREFIX = "cb-orphan-";
+    public static String ORPHAN_TREAD_PREFIX;
     @Alias
     @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static AtomicInteger ORPHAN_REPORTER_ID = new AtomicInteger();
+    private static AtomicInteger ORPHAN_REPORTER_ID = new AtomicInteger();;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_TOTAL_MICROS = "total_duration_us";
+    private static String KEY_TOTAL_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_DISPATCH_MICROS = "last_dispatch_duration_us";
+    private static String KEY_DISPATCH_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_TOTAL_DISPATCH_MICROS = "total_dispatch_duration_us";
+    private static String KEY_TOTAL_DISPATCH_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_ENCODE_MICROS = "encode_duration_us";
+    private static String KEY_ENCODE_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_SERVER_MICROS = "last_server_duration_us";
+    private static String KEY_SERVER_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_TOTAL_SERVER_MICROS = "total_server_duration_us";
+    private static String KEY_TOTAL_SERVER_MICROS;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_OPERATION_ID = "operation_id";
+    private static String KEY_OPERATION_ID;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_OPERATION_NAME = "operation_name";
+    private static String KEY_OPERATION_NAME;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_LAST_LOCAL_SOCKET = "last_local_socket";
+    private static String KEY_LAST_LOCAL_SOCKET;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_LAST_REMOTE_SOCKET = "last_remote_socket";
+    private static String KEY_LAST_REMOTE_SOCKET;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_LAST_LOCAL_ID = "last_local_id";
+    private static String KEY_LAST_LOCAL_ID;
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static String KEY_TIMEOUT = "timeout_ms";
+    private static String KEY_TIMEOUT;
     @Alias
     @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
     private AtomicBoolean running = new AtomicBoolean(false);
     @Alias
-    //    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    volatile Thread worker = null; // visible for testing
+    volatile Thread worker; // visible for testing
     @Alias
     private Queue<Request<?>> orphanQueue;
     @Alias
@@ -101,14 +89,30 @@ final class Target_OrphanReporter {
     }
 
     @Alias
-    public OrphanReporterConfig config() {
-        return config;
-    }
+    public native OrphanReporterConfig config();
 
     @TargetClass(value = OrphanReporter.class, innerClass = "Worker")
     private static final class Target_Worker implements Runnable {
+        @Override
         @Alias
-        public void run() {
-        }
+        public native void run();
+
+        @Alias
+        private Comparator<Request<?>> THRESHOLD_COMPARATOR;
+        @Alias
+        @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
+        private Queue<Request<?>> kvOrphans = new PriorityQueue<>(THRESHOLD_COMPARATOR);
+        @Alias
+        @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
+        private Queue<Request<?>> queryOrphans = new PriorityQueue<>(THRESHOLD_COMPARATOR);
+        @Alias
+        @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
+        private Queue<Request<?>> viewOrphans = new PriorityQueue<>(THRESHOLD_COMPARATOR);
+        @Alias
+        @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
+        private Queue<Request<?>> searchOrphans = new PriorityQueue<>(THRESHOLD_COMPARATOR);
+        @Alias
+        @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
+        private Queue<Request<?>> analyticsOrphans = new PriorityQueue<>(THRESHOLD_COMPARATOR);
     }
 }

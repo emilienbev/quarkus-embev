@@ -17,6 +17,8 @@ package com.couchbase.quarkus.extension.deployment;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
+import com.couchbase.client.core.api.kv.CoreKvBinaryOps;
+import com.couchbase.client.core.api.kv.CoreKvOps;
 import com.couchbase.client.java.Cluster;
 import com.couchbase.quarkus.extension.runtime.CouchbaseConfig;
 import com.couchbase.quarkus.extension.runtime.CouchbaseRecorder;
@@ -26,7 +28,9 @@ import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
 import io.quarkus.deployment.annotations.Record;
+import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
+import io.quarkus.deployment.pkg.steps.NativeBuild;
 
 public class CouchbaseProcessor {
 
@@ -45,10 +49,24 @@ public class CouchbaseProcessor {
 
     }
 
+    @BuildStep(onlyIf = NativeBuild.class)
+    NativeImageProxyDefinitionBuildItem coreKvProxies() {
+        return new NativeImageProxyDefinitionBuildItem(
+                CoreKvBinaryOps.class.getName(),
+                CoreKvOps.class.getName());
+    }
+
     @BuildStep
     ReflectiveClassBuildItem reflection() {
         return ReflectiveClassBuildItem.builder(
                 new String[] {
+                        //Kv
+                        "com.couchbase.client.core.api.kv.CoreKvOps",
+                        "com.couchbase.client.core.api.kv.CoreKvBinaryOps",
+                        "com.couchbase.client.core.api.kv.CoreKvResult",
+                        "com.couchbase.client.core.classic.kv.ClassicCoreKvBinaryOps",
+                        "com.couchbase.client.core.env.CoreEnvironment",
+
                         "com.couchbase.client.core.logging.RedactableArgument",
                         "com.couchbase.client.core.msg.CancellationReason",
                         "com.couchbase.client.core.api.manager.search.CoreSearchIndex",
@@ -82,7 +100,21 @@ public class CouchbaseProcessor {
                         "com.couchbase.client.core.api.search.vector.CoreVectorQuery",
                         "com.couchbase.client.core.api.search.vector.CoreVectorQueryCombination",
                         "com.couchbase.client.core.api.search.vector.CoreVectorSearch",
-                        "com.couchbase.client.core.api.search.vector.CoreVectorSearchOptions"
+                        "com.couchbase.client.core.api.search.vector.CoreVectorSearchOptions",
+                        //Other
+                        "com.couchbase.client.core.config.CollectionsManifest",
+                        "com.couchbase.client.core.config.CollectionsManifestCollection",
+                        "com.couchbase.client.core.config.CollectionsManifestScope",
+                        //Query
+                        "com.couchbase.client.core.api.query.CoreQueryResult",
+                        "com.couchbase.client.core.api.query.CoreQueryContext",
+                        "com.couchbase.client.core.api.query.CoreQueryStatus",
+                        "com.couchbase.client.core.api.query.CoreQueryWarning",
+                        "com.couchbase.client.core.api.manager.CoreQueryIndex",
+                        //Error
+                        "com.couchbase.client.core.error.ErrorCodeAndMessage",
+                        //Other
+                        "com.couchbase.client.core.classic.manager.CoreBucketSettingsJson"
                 }).fields().methods().build();
     }
 }
