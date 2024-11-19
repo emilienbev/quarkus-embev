@@ -49,6 +49,7 @@ public class CouchbaseProcessor {
     ReflectiveClassBuildItem reflection() {
         return ReflectiveClassBuildItem.builder(
                 new String[] {
+                        "com.couchbase.client.core.env.VersionAndGitHash",
                         "com.couchbase.client.core.logging.RedactableArgument",
                         "com.couchbase.client.core.msg.CancellationReason",
                         "com.couchbase.client.core.api.manager.search.CoreSearchIndex",
