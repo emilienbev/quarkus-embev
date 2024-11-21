@@ -20,10 +20,15 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 
+import com.couchbase.client.core.deps.com.fasterxml.jackson.databind.ObjectMapper;
+import com.couchbase.client.core.json.Mapper;
+
 @Path("/couchbase-quarkus-extension")
 @ApplicationScoped
 public class CouchbaseQuarkusExtensionResource {
     // add some rest methods here
+
+    private final ObjectMapper mapper = Mapper.newObjectMapper();
 
     @GET
     public String hello() {

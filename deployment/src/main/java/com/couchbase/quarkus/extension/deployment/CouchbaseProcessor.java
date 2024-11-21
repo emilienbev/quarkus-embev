@@ -49,6 +49,9 @@ public class CouchbaseProcessor {
     ReflectiveClassBuildItem reflection() {
         return ReflectiveClassBuildItem.builder(
                 new String[] {
+                        "com.couchbase.client.core.deps.com.fasterxml.jackson.databind.JsonNode",
+                        "com.couchbase.client.core.json.Mapper",
+                        "com.couchbase.client.core.classic.manager.CoreBucketSettingsJson",
                         "com.couchbase.client.core.logging.RedactableArgument",
                         "com.couchbase.client.core.msg.CancellationReason",
                         "com.couchbase.client.core.api.manager.search.CoreSearchIndex",

@@ -47,9 +47,15 @@ final class TargetClusterEnvironment {
         @Override
         public boolean getAsBoolean() {
             try {
+                Class.forName(" com.couchbase.client.core.deps.com.fasterxml.jackson.databind.ObjectMapper");
+            } catch (Exception ignored) {
+                System.err.println("EMBEV-1 shaded ObjectMapper not in classpath");
+            }
+            try {
                 Class.forName("com.fasterxml.jackson.databind.ObjectMapper");
                 return false;
             } catch (ClassNotFoundException ignored) {
+                System.err.println("EMBEV-2 ObjectMapper not in classpath");
                 return true;
             }
         }
